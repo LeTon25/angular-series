@@ -26,5 +26,8 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     
   }
+  onChangeFirst():void{
+    console.log('jump')
+  }
 
 }

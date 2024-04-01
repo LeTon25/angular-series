@@ -32,4 +32,7 @@ export class ServerElementComponent implements OnInit ,OnChanges ,DoCheck,AfterC
   ngAfterViewInit(): void {
     
   }
+  ngOnDestroy(): void {
+    
+  }
 }

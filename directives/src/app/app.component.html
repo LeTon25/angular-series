@@ -23,6 +23,10 @@
           </li>
         </div>
       </ul>
+      <div [ngSwitch]="value">
+        <p *ngSwitchCase="5">Value is 5</p>
+        <p *ngSwitchCase="10">Value is 5</p>
+      </div>
       <ng-template [ngIf]="onlyOdd">
         <p appBasicHighlight >Only odd</p>
         <p appBetterHighlight [defaultColor]="'yellow'"  >Only odd</p>

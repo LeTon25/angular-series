@@ -17,10 +17,15 @@ const appRoutes: Routes = [
         ]
     },
     {
-        path: 'servers',canActivate:[AppGuard] ,component: ServersComponent, children: [
-            { path: ':id', component: ServerComponent },
-            { path: ':id/edit', component: EditServerComponent },
-        ]
+        path: 'servers',
+            canActivate:[AppGuard],
+            canActivateChild:[AppGuard] ,
+            component: ServersComponent,
+            children: 
+            [
+                { path: ':id' ,component: ServerComponent },
+                { path: ':id/edit', component: EditServerComponent },
+            ]
     },
     { path: 'not-found', component: PageNotFoundComponent },
     { path: '**', redirectTo: '/not-found', pathMatch: 'full' },

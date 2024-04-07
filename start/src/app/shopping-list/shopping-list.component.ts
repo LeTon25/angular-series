@@ -22,6 +22,6 @@ export class ShoppingListComponent implements OnInit {
   }
 
   onIngredientAdded(ingredient: Ingredient) {
-    this.shoppingList.addIngredients(ingredient)
+    this.shoppingList.addIngredients([ingredient])
   }
 }

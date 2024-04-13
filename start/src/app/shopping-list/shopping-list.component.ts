@@ -22,7 +22,9 @@ export class ShoppingListComponent implements OnInit,OnDestroy {
       }
     )
   }
-
+  onEditItem(index:number){
+    this.shoppingList.startedEditing.next(index)
+  }
   onIngredientAdded(ingredient: Ingredient) {
     this.shoppingList.addIngredients([ingredient])
   }

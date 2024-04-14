@@ -5,7 +5,12 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
+  filterStatus =''
+  appStatus = new Promise((resolve,reject)=>{
+    setTimeout(()=>{resolve('stable') },1500)
+  })
   servers = [
     {
       instanceType: 'medium',
@@ -38,5 +43,13 @@ export class AppComponent {
       'list-group-item-warning': server.status === 'offline',
       'list-group-item-danger': server.status === 'critical'
     };
+  }
+  onAddServer(){
+    this.servers.push({
+      instanceType: 'medium',
+      name: 'New',
+      status: 'stable',
+      started: new Date(15, 1, 2017)
+    })
   }
 }

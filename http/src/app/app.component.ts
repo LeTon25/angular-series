@@ -1,11 +1,11 @@
 import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
-import { map } from 'rxjs';
 import { Post } from './post.model';
 import { CommonModule } from '@angular/common';
+import { PostsService } from './post.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -14,46 +14,47 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
   loadedPosts:Post[] = [];
+  isFetching = false;
+  error : string ='';
+  private errorSub :Subscription = new Subscription();  
 
-  constructor(private http: HttpClient) { }
+  constructor(private postService : PostsService) { }
 
-  ngOnInit() { }
+  ngOnInit() 
+  { 
+
+    this.errorSub = this.postService.error.subscribe((error)=>{
+      this.error = error
+    })
+  }
 
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
-    this.http
-      .post<{name:string}>('https://angularseries-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json', postData)
-      .subscribe((responseData) => {
-        console.log(responseData)
-      })
+    this.postService.createAndStorePost(postData.title,postData.content)
   }
 
   onFetchPosts() {
-    this.fetchPosts()
-  }
-  private fetchPosts() {
-    this.http
-      .get<{ [key:string] :Post }>('https://angularseries-default-rtdb.asia-southeast1.firebasedatabase.app/posts.json')
-      .pipe(
-        map((responeData) => {
-          const  arr = []
-          for (const keys in responeData) {
-            if (responeData.hasOwnProperty(keys)) {
-              const postData =  (responeData as any)[keys];
-              arr.push({  id:keys ,...postData})
-            }
-          }
-          return arr;
-        })
-      )
-      .subscribe((posts) => { 
-        this.loadedPosts = posts
-      })
-
+    this.isFetching = true;
+    this.postService.fetchPosts().subscribe((posts)=>{
+      this.isFetching = false;
+      this.loadedPosts = posts
+    },error =>{
+      this.error = error.message
+      this.isFetching = false
+    })
   }
   onClearPosts() {
     // Send Http request
+    this.postService.clearAllPosts().subscribe(()=>{
+      this.loadedPosts = []
+    })
+  }
+  ngOnDestroy(): void {
+    this.errorSub.unsubscribe()
+  }
+  onHandlingError(){
+    this.error =''
   }
 }

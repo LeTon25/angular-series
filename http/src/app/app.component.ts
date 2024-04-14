@@ -5,16 +5,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { RouterOutlet } from '@angular/router';
 import { map } from 'rxjs';
 import { Post } from './post.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, HttpClientModule],
+  imports: [RouterOutlet,CommonModule, FormsModule, HttpClientModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  loadedPosts = [];
+  loadedPosts:Post[] = [];
 
   constructor(private http: HttpClient) { }
 
@@ -44,10 +45,11 @@ export class AppComponent {
               arr.push({  id:keys ,...postData})
             }
           }
-          console.log(arr)
+          return arr;
         })
       )
-      .subscribe(posts => {
+      .subscribe((posts) => { 
+        this.loadedPosts = posts
       })
 
   }

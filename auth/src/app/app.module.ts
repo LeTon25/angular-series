@@ -53,6 +53,7 @@ import { PlaceholderDirective } from './shared/placeholder/placeholder.directive
     useClass :AuthInterceptor,
     multi:true
   }],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  
 })
 export class AppModule {}

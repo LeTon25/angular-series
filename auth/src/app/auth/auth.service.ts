@@ -1,7 +1,8 @@
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { throwError } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { BehaviorSubject, Subject, throwError } from "rxjs";
+import { catchError, tap } from "rxjs/operators";
+import { User } from "./user.model";
 
 export interface AuthResponseData {
     idToken: string,
@@ -14,6 +15,7 @@ export interface AuthResponseData {
     providedIn: 'root'
 })
 export class AuthService {
+    public user = new BehaviorSubject<User>(null)
     constructor(private http: HttpClient) {
 
     }
@@ -34,7 +36,7 @@ export class AuthService {
     logIn(email: string, password: string) {
         return this.http
             .post<AuthResponseData>(
-                'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCDGLv_WBzOlKSJoEIHtjAktJS8oH_jY1Q',
+                'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCDGLv_WBzOlKSJoEIHtjAktJS8oH_jY1Q',
                 {
                     email: email,
                     password: password,
@@ -42,8 +44,16 @@ export class AuthService {
                 }
             )
             .pipe(
-                catchError(this.handleError)
+                catchError(this.handleError),
+                tap(resData => {
+                    this.handleAuthentication(resData.email,resData.localId,resData.idToken,+resData.expiresIn)
+                })
             )
+    }
+    private handleAuthentication(email:string, userId:string,token:string,expiresIn : number){
+        const expirationDate = new Date(new Date().getTime() + +expiresIn*1000)
+        const user  = new User(email,userId,token,expirationDate)
+        this.user.next(user)
     }
     private handleError(errorRes: HttpErrorResponse) {
         let errorMessage = 'An unknown error occurred'
@@ -57,7 +67,9 @@ export class AuthService {
             case 'EMAIL_NOT_FOUND':
                 errorMessage = 'There is no user record corresponding to this identifier. The user may have been deleted.'
                 break;
-
+            case 'INVALID_PASSWORD':
+                errorMessage = 'The password is invalid or the user does not have a password.'
+                break;
         }
         return throwError(errorMessage)
     }

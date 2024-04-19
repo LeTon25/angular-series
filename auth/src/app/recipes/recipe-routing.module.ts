@@ -1,10 +1,11 @@
-import { Routes } from "@angular/router";
+import { RouterModule, Routes } from "@angular/router";
 import { RecipesComponent } from "./recipes.component";
 import { AuthGuard } from "../auth/auth.guard";
 import { RecipeEditComponent } from "./recipe-edit/recipe-edit.component";
 import { RecipeStartComponent } from "./recipe-start/recipe-start.component";
 import { RecipeDetailComponent } from "./recipe-detail/recipe-detail.component";
 import { RecipesResolverService } from "./recipes-resolver.service";
+import { NgModule } from "@angular/core";
 
 const routes: Routes = [
     {
@@ -26,8 +27,10 @@ const routes: Routes = [
             },
         ]
     },
-]
+];
 
-export class RecipeRoutingModule{
-    
-}
+@NgModule({
+    imports: [RouterModule.forChild(routes)],
+    exports : [RouterModule],
+})
+export class RecipeRoutingModule{}

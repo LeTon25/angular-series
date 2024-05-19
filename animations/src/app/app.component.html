@@ -29,6 +29,16 @@
           {{ item }}
         </li>
       </ul>
+
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          [@list2]
+          (click)="onDelete(item)"
+          *ngFor="let item of list">
+          {{ item }}
+        </li>
+      </ul>
     </div>
   </div>
   <hr>

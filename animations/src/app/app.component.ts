@@ -1,4 +1,4 @@
-import { trigger ,state, style, transition, animate} from '@angular/animations';
+import { trigger ,state, style, transition, animate, keyframes, group} from '@angular/animations';
 import { Component } from '@angular/core';
 
 @Component({
@@ -36,6 +36,45 @@ import { Component } from '@angular/core';
         animate(1000,style({borderRadius :'50px'})),
         animate(500)
       ]),
+    ]),
+    trigger('list2',[
+      state("in",style({
+        'opacity':1,
+         transform:'translateX(0)'
+      })),
+      transition('void => *',keyframes([
+        style({
+          transform:'translateX(-100px)',
+          opacity:0,
+          offset:0
+        }),
+        style({
+          transform:'translateX(-50px)',
+          opacity:0.5,
+          offset:0.3
+        }),
+        style({
+          transform:'translateX(-20px)',
+          opacity:1,
+          offset:0.8
+        }),
+        style({
+          transform:'translateX(0px)',
+          opacity:1,
+          offset:1
+        }),
+      ])),
+      transition('* => void',[
+        group([
+          animate(300,style({
+            color:'red'
+          })),
+          animate(300,style({
+            opacity : 0,
+            transform :'translateX(100px)'
+          }))
+        ])
+      ])
     ]),
     trigger('list1',[
       state("in",style({

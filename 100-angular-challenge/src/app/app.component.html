@@ -7,7 +7,12 @@
         <li>Other</li>
     </ul>
 </app-toolbar>
-<app-card title="Component" subTitle="Mô tả" iconClasses="fa-solid fa-info">
+<app-card title="Component" subTitle="Mô tả" iconClasses="fa-solid fa-circle-info">
     <p body>Body content</p>
     <p footer>Footer content</p>
+</app-card>
+<app-card title="Accordion" subTitle="Mô tả" iconClasses="fa-solid fa-circle-info">
+    <app-accordion body [items]="accordionItems">
+        
+    </app-accordion>
 </app-card>

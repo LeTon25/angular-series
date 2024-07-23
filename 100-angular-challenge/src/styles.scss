@@ -3,6 +3,8 @@
 @import './styles/mixins';
 @import './styles/variables';
 @import url('https://fonts.googleapis.com/css?family=Montserrat|Raleway&display=swap');
+
+@import '@fortawesome/fontawesome-free/css/all.css';
 * {
     scroll-behavior: smooth;
     padding: 0;

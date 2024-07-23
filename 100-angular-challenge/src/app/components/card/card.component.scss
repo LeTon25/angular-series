@@ -1,0 +1,19 @@
+@import '../../../styles.scss';
+.card-container
+{
+    border-radius: 3px;
+    @include box-shadow();
+
+    .header{
+        display: flex;
+        padding: 10px;
+        align-items: center;
+        color: white;
+        background-color: $green;
+    }
+    .body,
+    .footer{
+        padding: 10px;
+        font-size: 16px;
+    }
+}

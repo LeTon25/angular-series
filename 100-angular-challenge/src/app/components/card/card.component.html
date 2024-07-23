@@ -1,0 +1,19 @@
+<div class="card-container">
+    <div class="header">
+        <i *ngIf="iconClasses" class="fa-solid fa-info"></i>
+        <div>
+            <h5 class="title">{{ title }}</h5>
+            <h6>{{ subTitle }}</h6>
+        </div>
+    </div>
+    <div class="body">
+        <ng-content select="[body]">
+
+        </ng-content>
+    </div>
+    <div class="footer">
+        <ng-content select="[footer]">
+            
+        </ng-content>
+    </div>
+</div>
